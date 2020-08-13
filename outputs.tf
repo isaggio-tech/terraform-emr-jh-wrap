@@ -10,6 +10,6 @@ output "master_public_dns" {
   value = module.emr.master_public_dns
 }
 
-output "master_ui_url" {
-  value = module.load-balancer.master_lb
-}
+#output "master_ui_url" {
+#  value = module.load-balancer.master_lb
+#}
