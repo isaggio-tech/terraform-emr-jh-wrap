@@ -31,7 +31,7 @@ resource "aws_emr_cluster" "emr_spark_cluster" {
 
   ec2_attributes {
     subnet_id                         = var.subnet_id
-    key_name                          = var.key_name
+    key_name                          = var.ssh_key_name
     emr_managed_master_security_group = var.emr_master_security_group
     emr_managed_slave_security_group  = var.emr_slave_security_group
     instance_profile                  = var.emr_ec2_instance_profile
@@ -73,6 +73,12 @@ resource "aws_emr_cluster" "emr_spark_cluster" {
 
   configurations_json = <<EOF
     [
+    {
+        "Classification":"emrfs-site",
+        "Properties": {
+            "fs.s3.enableServerSideEncryption": "true"
+        }
+     },
      {
         "Classification": "spark-defaults",
         "Properties": {
@@ -84,7 +90,8 @@ resource "aws_emr_cluster" "emr_spark_cluster" {
         "Classification": "jupyter-s3-conf",
         "Properties": {
             "s3.persistence.enabled": "true",
-            "s3.persistence.bucket": "${var.name}-persistent-storage"
+            "s3.persistence.bucket": "${var.name}-persistent-storage",
+            "fs.s3.enableServerSideEncryption": "true"
         }
      }
     ]

@@ -75,6 +75,10 @@ variable "emr_bootstrap_s3" {
   default = ""
 }
 
+variable "emr_jh_persist_s3" {
+  default = ""
+}
+
 variable "jupyter_hub_port" {
 }
 

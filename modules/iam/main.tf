@@ -189,7 +189,8 @@ resource "aws_iam_role_policy" "instance_profile_base" {
             "Resource": [
                 "arn:aws:s3:::elasticmapreduce",
                 "arn:aws:s3:::${var.emr_logs_s3}",
-                "arn:aws:s3:::${var.emr_bootstrap_s3}"
+                "arn:aws:s3:::${var.emr_bootstrap_s3}",
+                "arn:aws:s3:::${var.emr_jh_persist_s3}"
             ]
         },
         {
@@ -209,7 +210,9 @@ resource "aws_iam_role_policy" "instance_profile_base" {
                 "arn:aws:s3:::${var.emr_logs_s3}",
                 "arn:aws:s3:::${var.emr_logs_s3}/*",
                 "arn:aws:s3:::${var.emr_bootstrap_s3}",
-                "arn:aws:s3:::${var.emr_bootstrap_s3}/*"
+                "arn:aws:s3:::${var.emr_bootstrap_s3}/*",
+                "arn:aws:s3:::${var.emr_jh_persist_s3}",
+                "arn:aws:s3:::${var.emr_jh_persist_s3}/*"
             ]
         },
         {

@@ -9,3 +9,7 @@ output "emr_logs_bucket" {
 output "emr_bootstrap_bucket" {
   value = "${aws_s3_bucket.create_bucket_bootstrap.id}"
 }
+
+output "emr_jh_persistent_bucket" {
+  value = "${aws_s3_bucket.create_bucket_jupyter_persistent.id}"
+}

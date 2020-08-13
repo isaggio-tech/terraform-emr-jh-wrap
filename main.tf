@@ -7,7 +7,8 @@ module "iam" {
   source              = "./modules/iam"
   name                = var.name
   emr_logs_s3         = module.s3.emr_logs_bucket
-  emr_bootstrap_s3    = module.s3.emr_bootstrap_bucket  
+  emr_bootstrap_s3    = module.s3.emr_bootstrap_bucket
+  emr_jh_persist_s3   = module.s3.emr_jh_persistent_bucket 
 }
 
 module "security" {
@@ -33,7 +34,6 @@ module "emr" {
   release_label             = var.release_label
   applications              = var.applications
   subnet_id                 = var.subnet_id
-  key_name                  = var.key_name
   master_instance_type      = var.master_instance_type
   master_ebs_size           = var.master_ebs_size
   core_instance_type        = var.core_instance_type
@@ -49,4 +49,5 @@ module "emr" {
   core_instance_count_min   = var.core_instance_count_min
   core_instance_count_max   = var.core_instance_count_max
   kms_key_id                = module.iam.iam_kms_key_id
+  ssh_key_name              = module.security.ec2_ssh_key
 }

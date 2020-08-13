@@ -37,6 +37,7 @@ resource "aws_s3_bucket_object" "pyspark_quick_setup_file" {
 resource "aws_s3_bucket" "create_bucket_jupyter_persistent" {
   bucket = "${var.name}-persistent-storage"
   acl    = "private"
+  force_destroy = true
 
   logging {
     target_bucket = aws_s3_bucket.s3_logs_bucket.id
@@ -45,6 +46,10 @@ resource "aws_s3_bucket" "create_bucket_jupyter_persistent" {
   tags = {
     Name        = "Bucket for Jupyterhub Persistent Storage"
     Environment = "Scripts"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 
   server_side_encryption_configuration {
@@ -59,6 +64,7 @@ resource "aws_s3_bucket" "create_bucket_jupyter_persistent" {
 resource "aws_s3_bucket" "emr_logs_bucket" {
   bucket = "${var.name}-cluster-logs"
   acl    = "private"
+  force_destroy = true
 
   versioning {
     enabled = true
@@ -66,6 +72,10 @@ resource "aws_s3_bucket" "emr_logs_bucket" {
 
   logging {
     target_bucket = aws_s3_bucket.s3_logs_bucket.id
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 
   server_side_encryption_configuration {
@@ -80,9 +90,14 @@ resource "aws_s3_bucket" "emr_logs_bucket" {
 resource "aws_s3_bucket" "s3_logs_bucket" {
   bucket = "${var.name}-s3logs"
   acl    = "log-delivery-write"
+  force_destroy = true
 
   versioning {
     enabled = true
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 
   server_side_encryption_configuration {
