@@ -1,6 +1,6 @@
-# Terraform + EMR Bootstrap PySpark with Anaconda
+# Terraform + EMR Bootstrap PySpark Anaconda With JupyterHub
 
-This code should help to jump start PySpark with Anaconda on AWS using Terraform.
+This code should help to jump start EMR PySpark with JUPYTERHUB + Anaconda on AWS using Terraform.
 
 ## Getting Started
 1. Install Terraform on Mac: `brew install terraform`
@@ -21,7 +21,7 @@ terraform destroy
 * [AWS instance cost](https://aws.amazon.com/emr/pricing/) for `eu-central-1`
 
 ## Maintainers
-* Dat Tran, github: [datitran](https://github.com/datitran)
+* Hari Chintala
 
 ## Copyright
 
