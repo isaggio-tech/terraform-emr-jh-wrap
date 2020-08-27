@@ -14,7 +14,8 @@ variable "subnet_ids_lb" {
 variable "vpc_id" {
 }
 
-variable "key_name" {
+variable "ssh_key_name" {
+  default = ""
 }
 
 variable "release_label" {

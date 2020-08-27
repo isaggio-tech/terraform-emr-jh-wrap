@@ -93,6 +93,12 @@ resource "aws_emr_cluster" "emr_spark_cluster" {
             "s3.persistence.bucket": "${var.name}-persistent-storage",
             "fs.s3.enableServerSideEncryption": "true"
         }
+     },
+     {
+        "Classification": "jupyter-hub-conf",
+        "Properties": {
+            "c.JupyterHub.port" : "9988"
+        }
      }
     ]
   EOF
@@ -112,6 +118,15 @@ resource "aws_emr_cluster" "emr_spark_cluster" {
       args = ["aws", "s3", "cp", "s3://${var.name}-bootstrap-volume/scripts/pyspark_quick_setup.sh", "/home/hadoop/"]
     }
   }
+
+ step {
+    action_on_failure = "CONTINUE"
+    name   = "Copy script file from s3."
+    hadoop_jar_step {
+      jar  = "command-runner.jar"
+      args = ["aws", "s3", "cp", "s3://${var.name}-bootstrap-volume/scripts/jupyter_hub_setup_ui.sh", "/home/hadoop/"]
+    }
+  }
   
  step {
       name              = "Setup pyspark with conda."
@@ -119,6 +134,15 @@ resource "aws_emr_cluster" "emr_spark_cluster" {
       hadoop_jar_step {
         jar  = "command-runner.jar"
         args = ["sudo", "bash", "/home/hadoop/pyspark_quick_setup.sh"]
+      }
+  }
+
+ step {
+      name              = "Expose Jupyterhub on HTTP Port"
+      action_on_failure = "CONTINUE"
+      hadoop_jar_step {
+        jar  = "command-runner.jar"
+        args = ["sudo", "bash", "/home/hadoop/jupyter_hub_setup_ui.sh"]
       }
   }
 }

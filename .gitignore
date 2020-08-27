@@ -30,4 +30,8 @@ override.tf.json
 #
 # !example_override.tf
 
+test.pem
+test1.pem
+
 # End of https://www.gitignore.io/api/terraform
+

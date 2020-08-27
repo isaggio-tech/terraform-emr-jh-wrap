@@ -34,6 +34,13 @@ resource "aws_s3_bucket_object" "pyspark_quick_setup_file" {
   depends_on = [aws_s3_bucket.create_bucket_bootstrap]
 }
 
+resource "aws_s3_bucket_object" "jupyter_hub_setup_ui_script" {
+  bucket     = "${var.name}-bootstrap-volume"
+  key        = "scripts/jupyter_hub_setup_ui.sh"
+  source     = "scripts/jupyter_hub_setup_ui.sh"
+  depends_on = [aws_s3_bucket.create_bucket_bootstrap]
+}
+
 resource "aws_s3_bucket" "create_bucket_jupyter_persistent" {
   bucket = "${var.name}-persistent-storage"
   acl    = "private"

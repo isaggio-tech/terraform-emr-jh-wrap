@@ -18,16 +18,6 @@ module "security" {
   ingress_cidr_blocks = var.ingress_cidr_blocks
 }
 
-#module "load-balancer" {
-#  source              = "./modules/load-balancer"
-#  vpc_id              = var.vpc_id 
-#  subnet_ids          = var.subnet_ids_lb
-#  lb_security_group   = module.security.emr_lb_security_group
-#  jupyter_port        = var.jupyter_hub_port
-#  master_id           = module.emr.emr_master_id
-#  name                = var.name
-#}
-
 module "emr" {
   source                    = "./modules/emr"
   name                      = var.name
@@ -50,4 +40,14 @@ module "emr" {
   core_instance_count_max   = var.core_instance_count_max
   kms_key_id                = module.iam.iam_kms_key_id
   ssh_key_name              = module.security.ec2_ssh_key
+}
+
+module "load-balancer" {
+  source              = "./modules/load-balancer"
+  vpc_id              = var.vpc_id
+  subnet_ids          = var.subnet_ids_lb
+  lb_security_group   = module.security.emr_lb_security_group
+  jupyter_port        = var.jupyter_hub_port
+  master_id           = module.emr.emr_master_id
+  name                = var.name
 }

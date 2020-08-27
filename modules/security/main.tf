@@ -26,6 +26,13 @@ resource "aws_security_group" "emr_master" {
   }
 
   ingress {
+    from_port   = 9988
+    to_port     = 9988
+    protocol    = "tcp"
+    cidr_blocks = [var.ingress_cidr_blocks]
+  }
+
+  ingress {
     from_port   = 8088
     to_port     = 8088
     protocol    = "tcp"
@@ -100,6 +107,13 @@ resource "aws_security_group" "lb_security_group" {
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["${chomp(data.http.ip.body)}/32"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
